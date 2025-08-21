@@ -2,8 +2,8 @@
   {
     "kernelSource": {
       "name": "android_gki_kernel_5.15_common",
-      "repo": "https://github.com/liqidecg/android_gki_kernel_5.15_common",
-      "branch": "android13-5.15-2025-05",
+      "repo": "https://github.com/liqidecg/android_kernel_qcom_sm8550",
+      "branch": "lineage-21",
       "device": "gki",
       "defconfig": "gki_defconfig"
     },
