@@ -6,7 +6,7 @@ on:
       # - ".github/workflows/build.yml"
   workflow_dispatch:
   schedule:
-    - cron: "30 21 * * 5"
+    - cron: "0 2 * * *"
 
 jobs:
   Read-configuration:
@@ -252,7 +252,7 @@ jobs:
         run: |
           # Clone repositories using the branch names
           git clone https://github.com/ShirkNeko/susfs4ksu.git -b "${{ env.SFS_BRANCH }}"
-          git clone https://github.com/SukiSU-Ultra/SukiSU_patch.git
+          git clone https://github.com/liqidecg/SukiSU_patch.git
 
           # Copy SUSFS patches
           cd ${{ env.KERNEL_NAME }}
@@ -263,13 +263,13 @@ jobs:
           patch -p1 < 50_add_susfs_in_${{ env.SFS_BRANCH }}.patch || true
 
           # Apply New Hooks Patches
-          cp ../SukiSU_patch/hooks/syscall_hooks.patch ./
-          patch -p1 -F 3 < syscall_hooks.patch
+          cp ../SukiSU_patch/hooks/sukisu_tracepoint_hooks.patch ./
+          patch -p1 -F 3 < sukisu_tracepoint_hooks.patch
 
           # Add SUSFS configuration settings
           echo "CONFIG_KSU=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_DEFCONFIG_PATH }}
           echo "CONFIG_KPM=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_DEFCONFIG_PATH }}
-          echo "CONFIG_KSU_MANUAL_HOOK=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_DEFCONFIG_PATH }}
+          echo "CONFIG_KSU_TRACEPOINT_HOOK=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_DEFCONFIG_PATH }}
           echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_DEFCONFIG_PATH }}
           
           echo "CONFIG_KSU_SUSFS=y" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_DEFCONFIG_PATH }}
